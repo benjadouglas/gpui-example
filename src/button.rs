@@ -12,7 +12,7 @@ impl EventEmitter<Change> for Counter {}
 
 impl Render for Counter {
     fn render(&mut self, cx: &mut ViewContext<Self>) -> impl IntoElement {
-        let counter = cx.new_model(|_cx| Counter { count: 0 });
+        let counter: Model<Counter> = cx.new_model(|_cx| Counter { count: 0 });
         let subscriber = cx.new_model(|cx: &mut ModelContext<Counter>| {
             cx.subscribe(&counter, |subscriber, _emitter, event, _cx| {
                 subscriber.count += event.increment;
@@ -35,7 +35,7 @@ impl Render for Counter {
             .justify_center()
             .hover(|s| s.bg(rgb(0x1B1B1B)).cursor_pointer())
             .child(format!("{}", subscriber.read(cx).count))
-            .on_mouse_down(MouseButton::Left, move |_mde, cx| {
+            .on_mouse_down(MouseButton::Left, move |_, cx| {
                 counter.update(cx, |counter, cx| {
                     counter.count += 1;
                     cx.notify();

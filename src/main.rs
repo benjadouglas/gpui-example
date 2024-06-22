@@ -1,5 +1,4 @@
 mod button;
-mod chat;
 use gpui::*;
 
 fn main() {
